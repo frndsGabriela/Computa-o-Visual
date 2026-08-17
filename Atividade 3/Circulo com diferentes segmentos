@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>Exercício 2 - Círculo com Segmentos de Reta</title>
+<style>
+  body { font-family: sans-serif; text-align: center; background: #222; color: #eee; }
+  .linha { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; margin-top: 15px; }
+  .item { text-align: center; }
+  canvas { background: #fff; border: 2px solid #555; }
+</style>
+</head>
+<body>
+  <h2>Exercício 2 — Círculo (raio 100) aproximado por N segmentos de reta</h2>
+  <p>Quanto mais segmentos, mais o polígono se aproxima de um círculo perfeito.</p>
+
+  <div class="linha">
+    <div class="item"><canvas id="c8" width="300" height="300"></canvas><p>8 segmentos</p></div>
+    <div class="item"><canvas id="c16" width="300" height="300"></canvas><p>16 segmentos</p></div>
+    <div class="item"><canvas id="c32" width="300" height="300"></canvas><p>32 segmentos</p></div>
+    <div class="item"><canvas id="c64" width="300" height="300"></canvas><p>64 segmentos</p></div>
+  </div>
+
+<script>
+  function desenhaCirculoPoligono(ctx, cx, cy, raio, numSegmentos) {
+    ctx.beginPath();
+    for (let i = 0; i <= numSegmentos; i++) {
+      const angulo = (2 * Math.PI * i) / numSegmentos;
+      const x = cx + raio * Math.cos(angulo);
+      const y = cy + raio * Math.sin(angulo);
+      if (i === 0) {
+        ctx.moveTo(x, y);
+      } else {
+        ctx.lineTo(x, y);
+      }
+    }
+    ctx.strokeStyle = "rgb(0, 100, 200)";
+    ctx.lineWidth = 2;
+    ctx.stroke();
+  }
+
+  const segmentos = [8, 16, 32, 64];
+  segmentos.forEach(n => {
+    const canvas = document.getElementById("c" + n);
+    const ctx = canvas.getContext("2d");
+    desenhaCirculoPoligono(ctx, 150, 150, 100, n);
+  });
+</script>
+</body>
+</html>
