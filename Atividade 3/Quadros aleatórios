@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>Exercício 1 - Quadros Aleatórios</title>
+<style>
+  body { font-family: sans-serif; text-align: center; background: #222; color: #eee; }
+  canvas { background: #fff; border: 2px solid #555; margin-top: 10px; }
+  button { padding: 8px 16px; font-size: 16px; margin-top: 10px; cursor: pointer; }
+</style>
+</head>
+<body>
+  <h2>Exercício 1 — Quadros de tamanho e cor aleatórios</h2>
+  <canvas id="canvas" width="400" height="400"></canvas><br>
+  <button onclick="gerarQuadros()">Gerar novamente</button>
+
+<script>
+  const canvas = document.getElementById("canvas");
+  const ctx = canvas.getContext("2d");
+
+  function corAleatoria() {
+    const r = Math.floor(Math.random() * 256);
+    const g = Math.floor(Math.random() * 256);
+    const b = Math.floor(Math.random() * 256);
+    return `rgb(${r}, ${g}, ${b})`;
+  }
+
+  function gerarQuadros() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    const quantidade = 30;
+
+    for (let i = 0; i < quantidade; i++) {
+      const tamanho = Math.floor(Math.random() * 60) + 10; 
+      const x = Math.floor(Math.random() * (canvas.width - tamanho));
+      const y = Math.floor(Math.random() * (canvas.height - tamanho));
+
+      ctx.fillStyle = corAleatoria();
+      ctx.fillRect(x, y, tamanho, tamanho);
+    }
+  }
+
+  gerarQuadros(); 
+</script>
+</body>
+</html>
