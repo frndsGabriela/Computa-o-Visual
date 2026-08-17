@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>Exercício 3 - Grade 10x10 com 50 elementos</title>
+<style>
+  body { font-family: sans-serif; text-align: center; background: #222; color: #eee; }
+  canvas { background: #fff; border: 2px solid #555; margin-top: 10px; }
+  button { padding: 8px 16px; font-size: 16px; margin-top: 10px; cursor: pointer; }
+</style>
+</head>
+<body>
+  <h2>Exercício 3 — 50 elementos aleatórios em grade 10x10</h2>
+  <canvas id="canvas" width="400" height="400"></canvas><br>
+  <button onclick="gerar()">Gerar novamente</button>
+
+<script>
+  const canvas = document.getElementById("canvas");
+  const ctx = canvas.getContext("2d");
+
+  const DIM_GRADE = 10;
+  const QTD_ELEMENTOS = 50;
+  const tamCelula = canvas.width / DIM_GRADE; 
+
+  function corAleatoria() {
+    const r = Math.floor(Math.random() * 256);
+    const g = Math.floor(Math.random() * 256);
+    const b = Math.floor(Math.random() * 256);
+    return `rgb(${r}, ${g}, ${b})`;
+  }
+
+  function gerar() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    const usado = Array.from({ length: DIM_GRADE }, () => Array(DIM_GRADE).fill(false));
+    let pintados = 0;
+
+    while (pintados < QTD_ELEMENTOS) {
+      const col = Math.floor(Math.random() * DIM_GRADE);
+      const lin = Math.floor(Math.random() * DIM_GRADE);
+
+      if (usado[lin][col]) continue; 
+
+      usado[lin][col] = true;
+      ctx.fillStyle = corAleatoria();
+      ctx.fillRect(col * tamCelula, lin * tamCelula, tamCelula, tamCelula);
+
+      pintados++;
+    }
+  }
+
+  gerar();
+</script>
+</body>
+</html>
