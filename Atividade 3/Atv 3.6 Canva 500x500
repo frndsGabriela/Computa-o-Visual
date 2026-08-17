@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>Exercício 6 - Canvas 500x500 preenchido</title>
+<style>
+  body { font-family: sans-serif; text-align: center; background: #222; color: #eee; }
+  canvas { background: #fff; border: 2px solid #555; margin-top: 10px; }
+  button { padding: 8px 16px; font-size: 16px; margin-top: 10px; cursor: pointer; }
+</style>
+</head>
+<body>
+  <h2>Exercício 6 — Canvas 500x500 preenchido com quadrados 20x20</h2>
+  <canvas id="canvas" width="500" height="500"></canvas><br>
+  <button onclick="randomizarCores()">Randomizar cores</button>
+
+<script>
+  const canvas = document.getElementById("canvas");
+  const ctx = canvas.getContext("2d");
+
+  const TAM_QUADRADO = 20;
+  const COLUNAS = canvas.width / TAM_QUADRADO;  
+  const LINHAS = canvas.height / TAM_QUADRADO;  
+
+  function corAleatoria() {
+    const r = Math.floor(Math.random() * 256);
+    const g = Math.floor(Math.random() * 256);
+    const b = Math.floor(Math.random() * 256);
+    return `rgb(${r}, ${g}, ${b})`;
+  }
+
+  function randomizarCores() {
+    for (let lin = 0; lin < LINHAS; lin++) {
+      for (let col = 0; col < COLUNAS; col++) {
+        ctx.fillStyle = corAleatoria();
+        ctx.fillRect(col * TAM_QUADRADO, lin * TAM_QUADRADO, TAM_QUADRADO, TAM_QUADRADO);
+      }
+    }
+  }
+
+  randomizarCores(); 
+</script>
+</body>
+</html>
