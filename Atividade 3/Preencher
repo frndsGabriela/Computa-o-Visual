@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>Exercício 5 - Quantidade necessária para preencher</title>
+<style>
+  body { font-family: sans-serif; text-align: center; background: #222; color: #eee; }
+  canvas { background: #fff; border: 2px solid #555; margin-top: 10px; }
+  button { padding: 8px 16px; font-size: 16px; margin-top: 10px; cursor: pointer; }
+  #info { font-size: 18px; margin-top: 10px; }
+</style>
+</head>
+<body>
+  <h2>Exercício 5 — Quantos pixels são necessários para preencher o canvas?</h2>
+
+  <canvas id="canvas" width="400" height="400"></canvas><br>
+  <button onclick="rodarExperimento()">Rodar experimento</button>
+  <p id="info">Clique no botão para começar.</p>
+
+<script>
+  const canvas = document.getElementById("canvas");
+  const ctx = canvas.getContext("2d");
+
+  const DIM_GRADE = 10;
+  const TOTAL_CELULAS = DIM_GRADE * DIM_GRADE; 
+  const tamCelula = canvas.width / DIM_GRADE;
+
+  function corAleatoria() {
+    const r = Math.floor(Math.random() * 256);
+    const g = Math.floor(Math.random() * 256);
+    const b = Math.floor(Math.random() * 256);
+    return `rgb(${r}, ${g}, ${b})`;
+  }
+
+  function pintaCelula(lin, col) {
+    ctx.fillStyle = corAleatoria();
+    ctx.fillRect(col * tamCelula, lin * tamCelula, tamCelula, tamCelula);
+  }
+
+  function preencherAteCompletar() {
+    const usado = Array.from({ length: DIM_GRADE }, () => Array(DIM_GRADE).fill(false));
+    let pintadas = 0;
+    let sorteios = 0;
+
+    while (pintadas < TOTAL_CELULAS) {
+      const col = Math.floor(Math.random() * DIM_GRADE);
+      const lin = Math.floor(Math.random() * DIM_GRADE);
+
+      pintaCelula(lin, col);
+      sorteios++;
+
+      if (!usado[lin][col]) {
+        usado[lin][col] = true;
+        pintadas++;
+      }
+    }
+    return sorteios;
+  }
+
+  function rodarExperimento() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    const quantidadeNecessaria = preencherAteCompletar();
+
+    document.getElementById("info").textContent =
+      `Foram necessários ${quantidadeNecessaria} pixels para preencher o canvas. ` +
+      `Limpando e gerando novamente com essa quantidade...`;
+
+    setTimeout(() => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      for (let i = 0; i < quantidadeNecessaria; i++) {
+        const col = Math.floor(Math.random() * DIM_GRADE);
+        const lin = Math.floor(Math.random() * DIM_GRADE);
+        pintaCelula(lin, col);
+      }
+
+      document.getElementById("info").textContent =
+        `Canvas regenerado usando ${quantidadeNecessaria} pixels (quantidade obtida no passo anterior).`;
+    }, 800);
+  }
+</script>
+</body>
+</html>
