@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>Exercício 4 - Loop gerando pixels</title>
+<style>
+  body { font-family: sans-serif; text-align: center; background: #222; color: #eee; }
+  canvas { background: #fff; border: 2px solid #555; margin-top: 10px; }
+  button { padding: 8px 16px; font-size: 16px; margin: 10px 5px 0; cursor: pointer; }
+  #contador { font-size: 18px; }
+</style>
+</head>
+<body>
+  <h2>Exercício 4 — Loop contínuo gerando pixels (células) na grade</h2>
+  <canvas id="canvas" width="400" height="400"></canvas><br>
+  <button onclick="iniciar()">Iniciar</button>
+  <button onclick="parar()">Parar</button>
+  <p id="contador">Pixels desenhados: 0</p>
+
+<script>
+  const canvas = document.getElementById("canvas");
+  const ctx = canvas.getContext("2d");
+
+  const DIM_GRADE = 10;
+  const tamCelula = canvas.width / DIM_GRADE; 
+
+  let intervaloId = null;
+  let contador = 0;
+
+  function corAleatoria() {
+    const r = Math.floor(Math.random() * 256);
+    const g = Math.floor(Math.random() * 256);
+    const b = Math.floor(Math.random() * 256);
+    return `rgb(${r}, ${g}, ${b})`;
+  }
+
+  function desenhaUmaCelula() {
+    const col = Math.floor(Math.random() * DIM_GRADE);
+    const lin = Math.floor(Math.random() * DIM_GRADE);
+
+    ctx.fillStyle = corAleatoria();
+    ctx.fillRect(col * tamCelula, lin * tamCelula, tamCelula, tamCelula);
+
+    contador++;
+    document.getElementById("contador").textContent = "Pixels desenhados: " + contador;
+  }
+
+  function iniciar() {
+    if (intervaloId !== null) return; 
+    intervaloId = setInterval(desenhaUmaCelula, 50); 
+  }
+
+  function parar() {
+    clearInterval(intervaloId);
+    intervaloId = null;
+  }
+</script>
+</body>
+</html>
