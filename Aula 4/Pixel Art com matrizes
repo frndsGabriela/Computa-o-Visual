@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>Pixel Art com Matrizes</title>
+<style>
+  body { font-family: sans-serif; text-align: center; background: #222; color: #eee; }
+  canvas { background: #fff; border: 2px solid #555; margin: 10px; }
+  .container { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; }
+  .pixel-box { background: #333; padding: 10px; border-radius: 8px; }
+</style>
+</head>
+<body>
+  <h2>4 Pixel Arts</h2>
+  
+  <div class="container">
+    <div class="pixel-box">
+      <p>Coração</p>
+      <canvas id="canvas1" width="150" height="150"></canvas>
+    </div>
+    <div class="pixel-box">
+      <p>Flor</p>
+      <canvas id="canvas2" width="150" height="150"></canvas>
+    </div>
+    <div class="pixel-box">
+      <p>Xadrez</p>
+      <canvas id="canvas3" width="150" height="150"></canvas>
+    </div>
+    <div class="pixel-box">
+      <p>Seta</p>
+      <canvas id="canvas4" width="150" height="150"></canvas>
+    </div>
+  </div>
+
+<script>
+  const matrizCoracao = [
+    [0, 1, 0, 1, 0],
+    [1, 1, 1, 1, 1],
+    [1, 1, 1, 1, 1],
+    [0, 1, 1, 1, 0],
+    [0, 0, 1, 0, 0]
+  ];
+
+  const matrizSmile = [
+    [0, 1, 1, 1, 0],
+    [1, 0, 1, 0, 1],
+    [1, 0, 0, 0, 1],
+    [1, 1, 0, 1, 1],
+    [0, 1, 1, 1, 0]
+  ];
+
+  const matrizXadrez = [
+    [1, 0, 1, 0, 1],
+    [0, 1, 0, 1, 0],
+    [1, 0, 1, 0, 1],
+    [0, 1, 0, 1, 0],
+    [1, 0, 1, 0, 1]
+  ];
+
+  const matrizSeta = [
+    [0, 0, 1, 0, 0],
+    [0, 1, 1, 1, 0],
+    [1, 0, 1, 0, 1],
+    [0, 0, 1, 0, 0],
+    [0, 0, 1, 0, 0]
+  ];
+
+  function desenharPixelArt(idCanvas, matriz, cor) {
+    const canvas = document.getElementById(idCanvas);
+    const ctx = canvas.getContext("2d");
+    const tamanhoPixel = canvas.width / matriz.length;
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    for (let i = 0; i < matriz.length; i++) {
+      for (let j = 0; j < matriz[i].length; j++) {
+        if (matriz[i][j] === 1) {
+          ctx.fillStyle = cor;
+          ctx.fillRect(j * tamanhoPixel, i * tamanhoPixel, tamanhoPixel, tamanhoPixel);
+        }
+      }
+    }
+  }
+
+  desenharPixelArt("canvas1", matrizCoracao, "#e74c3c");
+  desenharPixelArt("canvas2", matrizSmile, "#f1c40f");
+  desenharPixelArt("canvas3", matrizXadrez, "#3498db");
+  desenharPixelArt("canvas4", matrizSeta, "#2ecc71");
+</script>
+</body>
+</html>
