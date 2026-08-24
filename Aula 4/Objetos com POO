@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>Objeto com POO </title>
+<style>
+  body { font-family: sans-serif; text-align: center; background: #222; color: #eee; }
+  canvas { background: #fff; border: 2px solid #555; margin-top: 10px; }
+  .controls { margin-top: 10px; }
+  button { padding: 8px 16px; font-size: 14px; margin: 0 5px; cursor: pointer; }
+</style>
+</head>
+<body>
+  <h2>Objeto Gerenciado por POO</h2>
+  <canvas id="canvas" width="400" height="400"></canvas>
+  <div class="controls">
+    <button onclick="objeto.mudarCor('red')">Vermelho</button>
+    <button onclick="objeto.mudarCor('blue')">Azul</button>
+    <button onclick="objeto.aumentarVelocidade()">Acelerar</button>
+    <button onclick="objeto.alternarModo()">Pausar/Mover</button>
+  </div>
+
+<script>
+  const canvas = document.getElementById("canvas");
+  const ctx = canvas.getContext("2d");
+
+  class ElementoAnimado {
+    constructor(x, y, velocidade, cor) {
+      this.x = x;
+      this.y = y;
+      this.velocidade = velocidade;
+      this.cor = cor;
+      this.velX = 2;
+      this.velY = 2;
+      this.tamanho = 40;
+      this.movendo = true;
+    }
+
+    atualizar(largura, altura) {
+      if (!this.movendo) return;
+      this.x += this.velX * this.velocidade;
+      this.y += this.velY * this.velocidade;
+
+      if (this.x - this.tamanho/2 < 0 || this.x + this.tamanho/2 > largura) this.velX *= -1;
+      if (this.y - this.tamanho/2 < 0 || this.y + this.tamanho/2 > altura) this.velY *= -1;
+    }
+
+    desenhar(contexto) {
+      contexto.save();
+      contexto.translate(this.x, this.y);
+      contexto.fillStyle = this.cor;
+      contexto.fillRect(-this.tamanho/2, -this.tamanho/2, this.tamanho, this.tamanho);
+      contexto.restore();
+    }
+
+    mudarCor(novaCor) {
+      this.cor = novaCor;
+    }
+
+    aumentarVelocidade() {
+      this.velocidade += 1;
+      if (this.velocidade > 5) this.velocidade = 1; // Reseta se passar de 5
+    }
+
+    alternarModo() {
+      this.movendo = !this.movendo;
+    }
+  }
+
+  const objeto = new ElementoAnimado(200, 200, 2, "purple");
+
+  function loop() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    objeto.atualizar(canvas.width, canvas.height);
+    objeto.desenhar(ctx);
+    requestAnimationFrame(loop);
+  }
+
+  loop();
+</script>
+</body>
+</html>
