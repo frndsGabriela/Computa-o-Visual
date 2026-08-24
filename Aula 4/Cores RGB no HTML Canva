@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>Seletor de Cores RGB no Canvas</title>
+<style>
+  body { font-family: sans-serif; text-align: center; background: #222; color: #eee; }
+  canvas { background: #fff; border: 2px solid #555; margin-top: 10px; }
+  .controls { margin-top: 10px; }
+  label { margin: 0 10px; }
+</style>
+</head>
+<body>
+  <h2>Retângulo RGB</h2>
+  <div class="controls">
+    <label>R: <input type="range" id="red" min="0" max="255" value="0"></label>
+    <label>G: <input type="range" id="green" min="0" max="255" value="0"></label>
+    <label>B: <input type="range" id="blue" min="0" max="255" value="255"></label>
+  </div>
+  <canvas id="canvas" width="400" height="300"></canvas>
+
+<script>
+  const canvas = document.getElementById("canvas");
+  const ctx = canvas.getContext("2d");
+
+  const rInput = document.getElementById("red");
+  const gInput = document.getElementById("green");
+  const bInput = document.getElementById("blue");
+
+  function atualizarRetangulo() {
+    const r = rInput.value;
+    const g = gInput.value;
+    const b = bInput.value;
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    
+    ctx.fillStyle = `rgb(${r}, ${g}, ${b})`;
+    ctx.fillRect(125, 75, 150, 150);
+  }
+
+  rInput.addEventListener("input", atualizarRetangulo);
+  gInput.addEventListener("input", atualizarRetangulo);
+  bInput.addEventListener("input", atualizarRetangulo);
+
+  atualizarRetangulo();
+</script>
+</body>
+</html>
